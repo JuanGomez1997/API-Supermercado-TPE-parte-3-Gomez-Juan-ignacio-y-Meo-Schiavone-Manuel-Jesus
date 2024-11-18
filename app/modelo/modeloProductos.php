@@ -12,10 +12,13 @@
         }
         //obtengo los productos por ID
         public function obtenerProductosId($id){
-            $query=$this->db->prepare("SELECT * FROM productos JOIN proveedores ON productos.proveedor_id=proveedores.id_proveedor WHERE productos.id_producto=?");
+            if (is_array($id)) {
+                $id = reset($id); 
+            }
+            $query = $this->db->prepare('SELECT productos.id_producto, productos.producto, productos.precio, productos.categoria, productos.fecha_vencimiento, productos.marca, productos.proveedor_id, proveedores.nombre FROM productos INNER JOIN proveedores ON proveedores.id_proveedor = productos.proveedor_id WHERE productos.id_producto= ?');
             $query->execute([$id]);
-            $productos=$query->fetchALL(PDO::FETCH_OBJ);
-            return $productos;
+            $producto = $query->fetch(PDO::FETCH_OBJ);
+            return $producto;
         }
         //obtengo producto por proveedor
         public function obtenerProductosPorProveedorId($proveedor_id) {
@@ -41,5 +44,13 @@
             $query->execute([$id_producto]);
         }
 
+        public function filtradoMarca($marca){
+                $query = $this->db->prepare("SELECT * FROM productos JOIN proveedores ON productos.proveedor_id=proveedores.id_proveedor WHERE marca=? ORDER BY precio ASC");
+                $query->execute([$marca]);
+                return $query->fetchAll(PDO::FETCH_OBJ);
+        }
+
     }
 ?>
+
+

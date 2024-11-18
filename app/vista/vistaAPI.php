@@ -1,6 +1,6 @@
 <?php
     class VistaApi {
-        public function respuesta ($datos, $estado = 200) {
+        public function respuesta ($datos, $estado) {
             header('Content-type: application/json');
             header('HTTP/1.1 ' . $estado . " " . $this->_estadoSolicitud($estado));
             echo json_encode($datos);
@@ -15,10 +15,7 @@
                 404 => "No Encontrado",
                 500 => "Error Interno del Servidor",
             );
-            if(!isset($estado[$codigo])) {
-                $codigo = 500;
-            }
-            return $estado[$codigo];
+            return (isset($estado[$codigo]))? $estado[$codigo] : $estado[500];
 
         }
 
