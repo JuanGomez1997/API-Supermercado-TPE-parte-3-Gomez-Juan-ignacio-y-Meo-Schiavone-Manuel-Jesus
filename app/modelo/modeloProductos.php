@@ -5,7 +5,7 @@
 
 
         public function obtenerProductos(){
-            $query=$this->db->prepare("SELECT * FROM productos");
+            $query=$this->db->prepare("SELECT * FROM productos ORDER BY producto ASC");
             $query->execute();
             $proveedores=$query->fetchAll(PDO::FETCH_OBJ);
             return $proveedores;
@@ -38,11 +38,7 @@
             $query=$this->db->prepare('UPDATE productos SET producto=?, precio=?, categoria=?, fecha_vencimiento=?, marca=?, proveedor_id=? WHERE productos.id_producto=?');
             $query->execute([ $productos , $precio , $categoria , $fecha_vencimiento , $marca , $proveedor_id , $id_producto]);
         }
-        // eliminar productos
-        public function eliminarProducto($id_producto){
-            $query=$this->db->prepare('DELETE FROM productos WHERE id_producto=?');
-            $query->execute([$id_producto]);
-        }
+        
 
         public function filtradoMarca($marca){
                 $query = $this->db->prepare("SELECT * FROM productos JOIN proveedores ON productos.proveedor_id=proveedores.id_proveedor WHERE marca=? ORDER BY precio ASC");

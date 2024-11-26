@@ -11,6 +11,17 @@
             
         }
 
+        public function obtenerProductosOrdenados() {
+            $productos = $this->modeloProductos->obtenerProductos();
+            
+            if (empty($productos)) {
+                return $this->vista->respuesta("No se encontraron productos", 404);
+            }
+            
+            return $this->vista->respuesta($productos, 200);
+        }
+
+
         public function obtenerProductoId($id) {
             $producto = $this->modeloProductos->obtenerProductosId($id);
         
@@ -56,5 +67,29 @@
             }
         
             return $this->vista->respuesta($productos, 200);
+        }
+
+        public function editarProducto($id) {
+            if (is_array($id)) {
+                $id = reset($id); 
+            }
+            $productoExistente = $this->modeloProductos->obtenerProductosId($id);
+            if ($productoExistente) {
+                $cuerpo = $this->obtenerDatos();
+                if (isset($cuerpo->producto, $cuerpo->precio, $cuerpo->categoria,$cuerpo->fecha_vencimiento, $cuerpo->marca, $cuerpo->proveedor_id)) {
+                    $producto = $cuerpo->producto;
+                    $precio = $cuerpo->precio;
+                    $categoria = $cuerpo->categoria;
+                    $fecha_vencimiento = $cuerpo->fecha_vencimiento;
+                    $marca = $cuerpo->marca;
+                    $proveedor_id = $cuerpo->proveedor_id;
+                    $this->modeloProductos->actualizarProducto($producto, $precio, $categoria, $fecha_vencimiento, $marca, $proveedor_id, $id);
+                    $this->vista->respuesta("El producto con id=$id ha sido modificado.", 200);
+                } else {
+                    $this->vista->respuesta("Faltan datos para modificar el producto.", 400);
+                }
+            } else {
+                $this->vista->respuesta("El producto con id=$id no existe.", 404);
+            }
         }
     }
