@@ -2,6 +2,7 @@
     require_once './database/config.php';
     require_once './libs/router.php';
     require_once './app/controlador/controladorProductosApi.php';
+    require_once './app/controlador/controladorUsuarioApi.php';
 
 
     $router = new Router();
@@ -12,6 +13,8 @@
     $router->addRoute('productos',     'POST',   'ControladorProductosApi', 'añadirProducto');
     $router->addRoute('productos/:ID', 'PUT',    'ControladorProductosApi', 'editarProducto');
     $router->addRoute('productos/marca/:MARCA', 'GET',    'ControladorProductosApi', 'filtradoPorMarca');
+
+    $router->addRoute('usuario/token', 'GET',    'ControladorUsuarioApi', 'Token');
 
     $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);
 

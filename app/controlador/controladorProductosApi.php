@@ -2,12 +2,15 @@
     require_once './app/modelo/modeloProductos.php';
     require_once './app/vista/vistaAPI.php';
     require_once './app/controlador/controladorApi.php';
+    require_once './app/helpers/api-helperaut.php';
 
     class ControladorProductosApi extends ControladorApi{
         private $modeloProductos;
+        private $authHelper;
         public function __construct() {
             parent::__construct();
             $this->modeloProductos = new ModeloProductos();
+            $this->authHelper=new AuthHelper();
             
         }
 
@@ -32,6 +35,9 @@
         }
 
         public function añadirProducto(){
+
+            
+
             $cuerpo = $this->obtenerDatos();
             if (!isset($cuerpo->producto) || !isset($cuerpo->precio) || !isset($cuerpo->categoria) || 
                 !isset($cuerpo->fecha_vencimiento) || !isset($cuerpo->marca) || !isset($cuerpo->proveedor_id)) {
