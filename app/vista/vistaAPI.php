@@ -1,6 +1,6 @@
 <?php
     class VistaApi {
-        public function respuesta ($datos, $estado) {
+        public function respuesta ($datos, $estado=200) {
             header('Content-type: application/json');
             header('HTTP/1.1 ' . $estado . " " . $this->_estadoSolicitud($estado));
             echo json_encode($datos);

@@ -15,6 +15,7 @@
         }
 
         public function obtenerProductosOrdenados() {
+            
             $productos = $this->modeloProductos->obtenerProductos();
             
             if (empty($productos)) {
@@ -36,7 +37,11 @@
 
         public function añadirProducto(){
 
-            
+            $user = $this->authHelper->usuarioActual();
+            if(!$user) {
+                $this->vista->respuesta('No Autorizado', 401);
+                return;
+            }
 
             $cuerpo = $this->obtenerDatos();
             if (!isset($cuerpo->producto) || !isset($cuerpo->precio) || !isset($cuerpo->categoria) || 
@@ -76,6 +81,13 @@
         }
 
         public function editarProducto($id) {
+
+            $user = $this->authHelper->usuarioActual();
+            if(!$user) {
+                $this->vista->respuesta('No Autorizado', 401);
+                return;
+            }
+
             if (is_array($id)) {
                 $id = reset($id); 
             }

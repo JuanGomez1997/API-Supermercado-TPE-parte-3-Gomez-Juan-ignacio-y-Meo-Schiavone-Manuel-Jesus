@@ -16,7 +16,7 @@
             } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
                 $encabezado = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
             }
-            var_dump($encabezado);
+            
             return $encabezado;
         }
 
